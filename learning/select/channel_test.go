@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"sync"
 	"testing"
@@ -68,6 +69,33 @@ func TestCancel(t *testing.T) {
 	}
 	cancel2(cn)
 
+}
+
+func TestContextCancel(t *testing.T) {
+	ctx, cancel := context.WithCancel(context.Background())
+	for i := 1; i < 6; i++ {
+		go func(i int, ctx context.Context) {
+			for {
+				if isCanceled2(ctx) {
+					break
+				} else {
+					time.Sleep(time.Millisecond * 100)
+				}
+			}
+			fmt.Println(i, "Cancelled")
+		}(i, ctx)
+	}
+	cancel()
+	time.Sleep(time.Second * 1)
+}
+
+func isCanceled2(ctx context.Context) bool {
+	select {
+	case <-ctx.Done():
+		return true
+	default:
+		return false
+	}
 }
 
 // 1.普通向cancel通道发送取消通知，这种做法需要事先知道有多少个正在执行的任务
