@@ -1,8 +1,11 @@
 module ast
 
-go 1.21.5
+go 1.31.5
 
-require github.com/gin-gonic/gin v1.9.1
+require (
+	github.com/dlclark/regexp2 v1.10.0
+	github.com/gin-gonic/gin v1.9.1
+)
 
 require (
 	github.com/bytedance/sonic v1.9.1 // indirect

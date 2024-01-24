@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "./proto;file";
+
+service FileService {
+  rpc OpenFile (FileRequest) returns (FileResponse);
+}
+
+message FileRequest {
+  string filename = 1;
+}
+
+message FileResponse {
+  string filename = 1;
+  string error_message = 2;
+}
